@@ -9,5 +9,5 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
   },
-  base: '/cinema-assistant/',
+  base: '/cinema-assitant/',
 });
