@@ -3,6 +3,8 @@ import { format } from 'date-fns';
 
 import { Session } from './types';
 import { generateWeeklyMovieSessions, generateWeeklyUserSchedule, groupByDay } from './utils';
+import styles from './App.module.css';
+
 
 function App() {
   const [userSchedule, setUserSchedule] = useState<Session[]>([]);
@@ -15,6 +17,8 @@ function App() {
   }, []);
 
   const checkAvailability = () => {
+    console.log(movieSessions, 'movieSessions');
+    console.log(userSchedule, 'userSchedule');
     const freeSessions = movieSessions.filter((session) => {
       const sessionStart = new Date(session.start);
       const sessionEnd = new Date(session.end);
@@ -37,19 +41,19 @@ function App() {
   const groupedAvailableSessions = groupByDay(availableSessions);
 
   return (
-    <div>
-      <h1>Cinema weekly assistant</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>🎬 Cinema weekly assistant</h1>
 
-      <div>
-        <div>
-          <h2>Calendar</h2>
+      <div className={styles.grid}>
+        <div className={styles.gridColumn}>
+          <h2 className={styles.subtitle}>📅 Calendar</h2>
           {Object.entries(groupedUserSchedule).map(([day, events], i) => (
-            <div key={i}>
-              <p>{format(new Date(day), 'eeee, d MMMM')}</p>
-              <div>
+            <div key={i} className={styles.dayBlock}>
+              <p className={styles.dayLabel}>{format(new Date(day), 'eeee, d MMMM')}</p>
+              <div className={styles.cardList}>
                 {events.map((event, idx) => (
-                  <div key={idx}>
-                    <p>{event.title}</p>
+                  <div key={idx} className={`${styles.card} ${styles.red}`}>
+                    <p className={styles.cardTitle}>{event.title}</p>
                     <p>
                       {format(new Date(event.start), 'HH:mm')} – {format(new Date(event.end), 'HH:mm')}
                     </p>
@@ -60,15 +64,15 @@ function App() {
           ))}
         </div>
 
-        <div>
-          <h2>🎞️ Now in cinemas</h2>
+        <div className={styles.gridColumn}>
+          <h2 className={styles.subtitle}>🎞️ Now in cinemas</h2>
           {Object.entries(groupedMovieSessions).map(([day, sessions], i) => (
-            <div key={i}>
-              <p>{format(new Date(day), 'eeee, d MMMM')}</p>
-              <div>
+            <div key={i} className={styles.dayBlock}>
+              <p className={styles.dayLabel}>{format(new Date(day), 'eeee, d MMMM')}</p>
+              <div className={styles.cardList}>
                 {sessions.map((session, idx) => (
-                  <div key={idx}>
-                    <p>{session.title}</p>
+                  <div key={idx} className={`${styles.card} ${styles.blue}`}>
+                    <p className={styles.cardTitle}>{session.title}</p>
                     <p>
                       {format(new Date(session.start), 'HH:mm')} - {format(new Date(session.end), 'HH:mm')}
                     </p>
@@ -80,20 +84,22 @@ function App() {
         </div>
       </div>
 
-      <div>
-        <button onClick={checkAvailability}>Select an available session</button>
+      <div className={styles.center}>
+        <button className={styles.button} onClick={checkAvailability}>
+          🔍 Select an available session
+        </button>
       </div>
 
       <div>
-        <h2>Available sessions</h2>
+        <h2 className={styles.subtitle}>✅ Available sessions</h2>
         {availableSessions.length > 0 ? (
           Object.entries(groupedAvailableSessions).map(([day, sessions], i) => (
-            <div key={i}>
-              <p>{format(new Date(day), 'eeee, d MMMM')}</p>
-              <div>
+            <div key={i} className={styles.dayBlock}>
+              <p className={styles.dayLabel}>{format(new Date(day), 'eeee, d MMMM')}</p>
+              <div className={styles.cardGrid}>
                 {sessions.map((session, idx) => (
-                  <div key={idx}>
-                    <p>{session.title}</p>
+                  <div key={idx} className={`${styles.card} ${styles.green}`}>
+                    <p className={styles.cardTitle}>{session.title}</p>
                     <p>
                       {format(new Date(session.start), 'HH:mm')} - {format(new Date(session.end), 'HH:mm')}
                     </p>
@@ -103,11 +109,10 @@ function App() {
             </div>
           ))
         ) : (
-          <p>There are no sessions available.</p>
+          <p className={styles.emptyText}>There are no sessions available. 😢</p>
         )}
       </div>
     </div>
   );
 }
-
 export default App;
