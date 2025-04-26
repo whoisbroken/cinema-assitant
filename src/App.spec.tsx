@@ -1,5 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
+
+import { CalendarType } from './constant';
+
 import App from './App';
 
 describe('App Component', () => {
@@ -20,8 +23,9 @@ describe('App Component', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      const sessionTitles = screen.getAllByText(/Dune 2|Oppenheimer|The Dark Knight/i);
-      expect(sessionTitles.length).toBeGreaterThan(0);
+      const availableCards = screen.getAllByTestId(CalendarType.AVAILABLE);
+
+      expect(availableCards.length).toBeGreaterThan(0);
     });
   });
 });
