@@ -70,3 +70,21 @@ export function groupByDay(items: Session[]) {
 
   return grouped;
 }
+
+export function calculateAvailableSessions(movieSessions: Session[], userSchedule: Session[]) {
+  const availableSessions = movieSessions.filter((session) => {
+    const sessionStart = new Date(session.start);
+    const sessionEnd = new Date(session.end);
+
+    const conflicts = userSchedule.some((meeting) => {
+      const meetingStart = new Date(meeting.start);
+      const meetingEnd = new Date(meeting.end);
+
+      return meetingStart < sessionEnd && meetingEnd > sessionStart;
+    });
+
+    return !conflicts;
+  });
+
+  return availableSessions;
+}

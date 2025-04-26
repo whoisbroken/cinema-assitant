@@ -1,10 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import CalendarDayCard from './components/CalendarDayCard';
 
 import { Session } from './types';
 import { CalendarType } from './constant';
-import { generateWeeklyMovieSessions, generateWeeklyUserSchedule, groupByDay } from './utils';
+import {
+  calculateAvailableSessions,
+  generateWeeklyMovieSessions,
+  generateWeeklyUserSchedule,
+  groupByDay,
+} from './utils';
 import styles from './App.module.css';
 
 const App: React.FC = () => {
@@ -18,26 +23,14 @@ const App: React.FC = () => {
   }, []);
 
   const checkAvailability = () => {
-    const freeSessions = movieSessions.filter((session) => {
-      const sessionStart = new Date(session.start);
-      const sessionEnd = new Date(session.end);
+    const availableSessions = calculateAvailableSessions(movieSessions, userSchedule);
 
-      const conflicts = userSchedule.some((meeting) => {
-        const meetingStart = new Date(meeting.start);
-        const meetingEnd = new Date(meeting.end);
-
-        return meetingStart < sessionEnd && meetingEnd > sessionStart;
-      });
-
-      return !conflicts;
-    });
-
-    setAvailableSessions(freeSessions);
+    setAvailableSessions(availableSessions);
   };
 
-  const groupedUserSchedule = groupByDay(userSchedule);
-  const groupedMovieSessions = groupByDay(movieSessions);
-  const groupedAvailableSessions = groupByDay(availableSessions);
+  const groupedUserSchedule = useMemo(() => groupByDay(userSchedule), [userSchedule]);
+  const groupedMovieSessions = useMemo(() => groupByDay(movieSessions), [movieSessions]);
+  const groupedAvailableSessions = useMemo(() => groupByDay(availableSessions), [availableSessions]);
 
   return (
     <div className={styles.container}>
