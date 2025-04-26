@@ -1,0 +1,43 @@
+.card {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: #242424;
+  height: 530px;
+}
+
+.cardItem {
+  margin: 0.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  padding: 0.25rem 0;
+  font-size: 0.95rem;
+  height: 100%;
+}
+
+.cardTitle {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.card[data-type='schedule'] {
+  border-left: 5px solid #e63946;
+}
+
+.card[data-type='session'] {
+  border-left: 5px solid #457b9d;
+}
+
+.card[data-type='available'] {
+  border-left: 5px solid #2a9d8f;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}

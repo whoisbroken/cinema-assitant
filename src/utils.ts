@@ -4,6 +4,7 @@ import { Session } from './types';
 export function generateWeeklyUserSchedule(): Session[] {
   const base = startOfToday();
   const schedule: Session[] = [];
+
   for (let i = 0; i < 7; i++) {
     const day = addDays(base, i);
     schedule.push(
@@ -31,6 +32,7 @@ export function generateWeeklyUserSchedule(): Session[] {
       });
     }
   }
+
   return schedule;
 }
 
@@ -58,11 +60,13 @@ export function generateWeeklyMovieSessions(): Session[] {
 }
 
 export function groupByDay(items: Session[]) {
-  const grouped: { [key: string]: Session[] } = {};
+  const grouped: Record<string, Session[]> = {};
+
   items.forEach((item) => {
     const day = format(new Date(item.start), 'yyyy-MM-dd');
     if (!grouped[day]) grouped[day] = [];
     grouped[day].push(item);
   });
+
   return grouped;
 }
