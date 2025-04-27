@@ -75,7 +75,6 @@ describe('groupByDay', () => {
     it('should return empty array when all sessions conflict with user schedule', () => {
       const movieSessions = [
         {
-          id: '1',
           title: 'Avatar 2',
           start: new Date('2025-04-28T14:00:00').toISOString(),
           end: new Date('2025-04-28T16:00:00').toISOString(),
@@ -84,7 +83,6 @@ describe('groupByDay', () => {
 
       const userSchedule = [
         {
-          id: 'a',
           title: 'Meeting',
           start: new Date('2025-04-28T13:00:00').toISOString(),
           end: new Date('2025-04-28T17:00:00').toISOString(),
